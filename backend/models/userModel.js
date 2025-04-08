@@ -16,7 +16,7 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.statics.creatUser = async function (name, email, password) {
+userSchema.statics.createUser = async function (name, email, password) {
     try {
         const user = new this({name, email, password});
         return user.save();
@@ -26,9 +26,11 @@ userSchema.statics.creatUser = async function (name, email, password) {
 }
 userSchema.statics.getUserByEMail = async function (email){
    try {
-    return findOne({email})
+    return this.findOne({email})
    } catch (error) {
       throw error 
    }
 }
+
+module.exports = mongoose.model("User", userSchema);
 

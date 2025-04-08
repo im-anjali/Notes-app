@@ -7,20 +7,35 @@ const login = async (req, res) =>{
     try {
         const user = await userModel.getUserByEMail(email);
         if(!user){
-            res.send("user does not exist");
+            return res.status(404).json({
+                status: "error",
+                message: "Invalid credentials",
+            });
         }
-        const isMatch = await bcrypt.compare(user, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){
-            res.send("wrong password");
+            return res.status(404).json({
+                status: "error",
+                message: "Invalid credentials",
+            });
         }
-        if(user && isMatch){
-            jwt.sign(
+        
+          const token =  jwt.sign(
                 {id: user._id},
                 process.env.JWTSECRETKEY,
                 {expiresIn: "1d"}
             )
-        }
-        res.send("user logged in successfully")
+        
+            return res.status(200).json({
+                status: "success",
+                message: "User logged in successfully",
+                token,
+                data: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            });
     } catch (error) {
         throw(error);
     }
@@ -45,24 +60,32 @@ const signup = async (req, res) =>{
             const {name, email, password} = req.body;
             const user = await userModel.getUserByEMail(email);
             if(user){
-                res.send("user already exists");
+                return res.status(400).json({
+					status: "error",
+					message: "User already exists",
+				});
             }
             if(!email || !name || !password){
                 res.send("please fill in all required fields ")
             }
             const hashePassword = await bcrypt.hash(password, 10);
 
-            const newUser = {
-                name: name,
-                email: email,
-                password: hashePassword
-            } 
+            const newUser = await userModel.createUser(
+                name,
+                email,
+                hashePassword
+            )
             const token = jwt.sign(
-                {id: user._id},
+                {id: newUser._id},
                 process.env.JWTSECRETKEY,
                 {expiresIn: "1d"}
             )
-            res.send("user created successfully");
+            res.status(201).json({
+                status: "success",
+                message: "user created successfully",
+                data: newUser,
+                token,
+            });
         } catch (error) {
             throw(error);
         }
