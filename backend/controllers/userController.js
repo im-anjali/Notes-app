@@ -65,9 +65,9 @@ const signup = async (req, res) =>{
 					message: "User already exists",
 				});
             }
-            if(!email || !name || !password){
-                res.send("please fill in all required fields ")
-            }
+            if (!name || !email || !password) {
+                return res.status(400).json({ message: "All fields are required" });
+              }
             const hashePassword = await bcrypt.hash(password, 10);
 
             const newUser = await userModel.createUser(

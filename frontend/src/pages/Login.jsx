@@ -1,23 +1,44 @@
 import React, { useContext, useState } from 'react'
 import { Link } from "react-router-dom";
+ import {AuthContext} from '../../context/UserContextProvider';
 import axios from "axios"
-import { useState } from "react";
-import UserContext from '../../context/UserContext';
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const {setUser} = useContext(UserContext)
-  const handleSubmit  = (e) =>{
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const {currUser, updateUser} = useContext(AuthContext);
+ 
+  const handleSubmit = async(e) =>{
     e.preventDefault();
-     setUser({email, password})
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, {email, password}, {withCredentials:true});
+      const token = res.data.token;
+      if(token){
+        localStorage.setItem("token", token);
+
+      }else{
+        console.error("no token received");
+      }
+      const user = {
+        ...res.data.user,
+        token:res.data.token,
+      };
+      updateUser(user);
+      
+
+    } catch (error) {
+      console.error("error:", error);
+      setError(error.response ? error.response.data.msg : "login failed")
+    }
   }
 
+   
   return (
     <>
       <div className='min-h-screen flex items-center justify-center bg-gray-900'>
         <div className='bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md'>
           <h1 className='text-2xl text-white text-center mb-6'>Login</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <label className='block text-gray-400  p-3 cursor-pointer' htmlFor="email">Email</label>
             <input id='email'
               type='email'
