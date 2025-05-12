@@ -7,14 +7,17 @@ const userRoute = require("./routes/userRoutes")
 const connectDb = require("../backend/connectDb/connectDb")
 const noteRoute = require("./routes/noteRoute")
 app.use(cors({
-    origin: 'http://localhost:5173', // for frontend
-    credentials: true               
-  }));
+    origin: 'http://localhost:5173',  // Replace with the URL of your React frontend
+    credentials: true,                // Allow credentials such as cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allow HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
+}));
   connectDb();
 const PORT = 3000 || process.env.PORT ;
 app.get('/', (req, res)=>{
     res.send('hello world');
 })
+
 
 app.use('/user', userRoute);
 app.use('/note', noteRoute);

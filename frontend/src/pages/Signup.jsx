@@ -15,7 +15,6 @@ function Signup() {
         e.preventDefault();
        try {
         const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {name, email, password})
-        console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
 
 
         navigate("/login")
@@ -28,7 +27,7 @@ function Signup() {
         <div className='min-h-screen flex items-center justify-center bg-gray-900'>
             <div className='bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md'>
                 <h1 className='text-2xl text-white text-center mb-6'>Sign Up</h1>
-                <form onClick={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <label className='block text-gray-400  p-3 cursor-pointer' >Name</label>
                     <input id='name'
                         type='name'

@@ -4,14 +4,17 @@ import Signup from './pages/Signup'
 import './App.css'
 import { useContext } from "react";
 import {AuthContext} from '../context/UserContextProvider'
+import AddNote from './pages/AddNote';
+import Home from './pages/Home';
 function App() {
-  const {currUser} = useContext(AuthContext);
-  console.log( JSON.stringify(currUser));
+
   return (
    <>
    <BrowserRouter>
    <Routes>
 
+   <Route path="/home" element={<Home/>}/>
+   <Route path="/addnote" element={<AddNote/>}/>
    <Route path="/login" element={<Login />} />
    <Route path="/signup" element={<Signup />} />
      
