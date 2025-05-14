@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
  import {AuthContext} from '../../context/UserContextProvider';
 import axios from "axios"
@@ -7,7 +8,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const {currUser, updateUser} = useContext(AuthContext);
- 
+     const navigate = useNavigate();
+
   const handleSubmit = async(e) =>{
     e.preventDefault();
     try {
@@ -24,7 +26,8 @@ function Login() {
         token:res.data.token,
       };
       updateUser(user);
-      
+        navigate("/home")
+
 
     } catch (error) {
       console.error("error:", error);

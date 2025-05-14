@@ -13,7 +13,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
 }));
   connectDb();
-const PORT = 3000 || process.env.PORT ;
+const PORT = 5000 || process.env.PORT ;
 app.get('/', (req, res)=>{
     res.send('hello world');
 })

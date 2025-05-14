@@ -17,7 +17,7 @@ function Signup() {
         const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {name, email, password})
 
 
-        navigate("/login")
+        navigate("/home")
         console.log(name, email, password)
        } catch (error) {
         setError(error.response.data.message);
@@ -66,7 +66,7 @@ function Signup() {
                         <p>
                             Already have an account?{" "}
                             <Link
-                                to="/login"
+                                to="/"
                                 className="text-white hover:underline"
                             >
                                 Sign In

@@ -39,5 +39,10 @@ const deleteNote = async (req, res) =>{
     throw(error);
   }
 }
-
-module.exports = {createNote, updateNote, deleteNote}         
+const getAllNotes = async (req, res) =>{
+  const userId = req.userId;
+  
+  const notes = await notesModel.find({userId});
+  res.json(notes);
+}
+module.exports = {createNote, updateNote, deleteNote, getAllNotes};         

@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { IoArrowBackCircleSharp } from "react-icons/io5";
 function AddNote() {
     const [heading, setHeading] = useState('');
    const currentDate = new Date().toISOString();
-    const [note, setNote] = useState('');
+    const [content, setContent] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!heading.trim() || !content.trim()){
+            alert("Both heading and content are required.");
+            return;
+        }
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/note/createnote`, { heading, note , currentDate});
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/note/createnote`, { heading, content , currentDate});
+              setHeading('');
+      setContent('');
         } catch (error) {
             console.log(error)
 
@@ -17,6 +24,7 @@ function AddNote() {
         <div>
             <div className='bg-gray-900 min-h-screen '>
                 <h1 className='text-gray-300 text-3xl pl-40 pt-15'>Heading</h1>
+                {/* <button  className='bg-white fixed bottom-15 right-15 w-16 h-16 rounded-full flex items-center justify-center cursor-pointer'><IoArrowBackCircleSharp /></button> */}
                 <form >
                     <div className='pl-40 mt-10 pr-40'>
                         <input
@@ -32,9 +40,9 @@ function AddNote() {
                     {/* <h1 className='text-gray-300 text-3xl pl-40 pt-15'>Note</h1>   */}
                     <div className='pl-40 mt-10 pr-40'>
                         <textarea
-                            id='note'
-                            value={note}
-                            onChange={(e) => setNote(e.target.value)}
+                            id='content'
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
                             placeholder="Write your note here..."
                             className='rounded-lg bg-gray-900 p-3 w-full h-120 text-white ring-2 ring-white/20 resize-none'
                         />
