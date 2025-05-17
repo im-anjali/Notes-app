@@ -20,6 +20,7 @@ function Login() {
 
       }else{
         console.error("no token received");
+        
       }
       const user = {
         ...res.data.user,
@@ -27,12 +28,14 @@ function Login() {
       };
       updateUser(user);
         navigate("/home")
-
+    
 
     } catch (error) {
       console.error("error:", error);
       setError(error.response ? error.response.data.msg : "login failed")
+    
     }
+
   }
 
    

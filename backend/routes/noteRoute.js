@@ -6,4 +6,5 @@ router.post('/createnote', notesController.createNote);
 router.put('/updatenote/:id', notesController.updateNote);
 router.delete('/deletenote/:id', notesController.deleteNote);
 router.get('/getnotes',authMiddleware, notesController.getAllNotes );
+router.get('/getnotebyid/:id', notesController.getNoteById);
 module.exports = router;

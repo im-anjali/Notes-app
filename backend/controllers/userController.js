@@ -14,10 +14,12 @@ const login = async (req, res) =>{
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){
+            alert("enter correct password and email");
             return res.status(404).json({
                 status: "error",
                 message: "Invalid credentials",
             });
+
         }
         
           const token =  jwt.sign(

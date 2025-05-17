@@ -9,6 +9,9 @@ function Home() {
     const handleClick = async(e) =>{
        navigate("/addnote")
   }
+const showNote = (id) => {
+  navigate(`/shownote/${id}`);
+};
   const [notes, setNotes] = useState([]);
    useEffect(() => {
     const fetchNotes = async () => {
@@ -26,7 +29,6 @@ function Home() {
         });
                 setNotes(res.data)
 
-        console.log(notes);
         
 
 
@@ -40,15 +42,18 @@ function Home() {
   return (
     
     <div className='bg-gray-900 min-h-screen'>
-       <h1 className='text-left text-white ml-30 pt-13 text-4xl '>Notes App</h1>
-        <ul>
+       <h1 className='text-left text-white ml-20 pt-13 text-4xl '>Notes App</h1>
+        <div className='pr-20 pl-20 pt-10  '>
+        <ul className="space-y-4">
         {notes?.map((note) => (
-          <li key={note._id} className="border-b py-2">
-            <strong>{note.heading}</strong>: {note.content}
+          <li key={note._id}   onClick={() => showNote(note._id)}         
+           className="cursor-pointer h-20 p-5 w-full  rounded-2xl shadow-lg text-white backdrop-blur-md bg-white/10 transition duration-300 ease-in-out hover:bg-white/20">
+           <h1 className='text-lg pl-3  ' >{note.heading}</h1>
           </li>
         ))}
       </ul>
-       <button className='bg-white fixed bottom-15 right-15 w-16 h-16 rounded-full flex items-center justify-center cursor-pointer' onClick={handleClick}><IoAddOutline className="text-3xl"/></button>
+      </div>
+       <button className='bg-white  fixed bottom-15 right-15 w-16 h-16 rounded-full flex items-center justify-center cursor-pointer' onClick={handleClick}><IoAddOutline className="text-3xl"/></button>
     </div>
   )
 }
