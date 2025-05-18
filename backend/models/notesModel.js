@@ -13,14 +13,20 @@ const notesSchema = new Schema({
     },
     date:{
         type:Date
+    },
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', 
+        required: true
     }
 })
-notesSchema.statics.createNote = async function(heading, content, date){
+notesSchema.statics.createNote = async function(heading, content, date, userId) {
     try {
-        const note = new this({heading, content, date});  
-        note.save();
+        const note = new this({ heading, content, date, userId });
+        return await note.save();
     } catch (error) {
-        throw(error)
+        throw(error);
     }
-}
+};
+
 module.exports = mongoose.model("Note", notesSchema)

@@ -3,7 +3,8 @@ const notesModel = require("../models/notesModel");
 const createNote = async (req, res) =>{
   try {
     const {heading, content, date} = req.body;
-    const newNote = await notesModel.createNote(heading, content, date);
+const userId = req.userId; // from authMiddleware
+const newNote = await notesModel.createNote(heading, content, date, userId);
      res.status(201).json({
         "message":"new note created",
         data:newNote
@@ -39,12 +40,18 @@ const deleteNote = async (req, res) =>{
     throw(error);
   }
 }
-const getAllNotes = async (req, res) =>{
-  const userId = req.userId;
-  
-  const notes = await notesModel.find({userId});
-  res.json(notes);
-}
+
+const getAllNotes = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const notes = await notesModel.find({ userId }); 
+        console.log(userId);
+        res.json(notes);
+    } catch (error) {
+        res.status(500).json({ message: 'error fetching notes', error });
+    }
+};
+
 const getNoteById = async (req, res) =>{
     try {
         const note = await notesModel.findById(req.params.id);

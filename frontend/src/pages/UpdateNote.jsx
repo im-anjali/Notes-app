@@ -32,7 +32,7 @@ import { IoArrowBackCircle } from "react-icons/io5"; function UpdateNote() {
 
         fetchNotes();
     }, []);
-    const UpdateNote = async () => {
+    const UpdateNote = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token");
