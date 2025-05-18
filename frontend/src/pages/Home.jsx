@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { IoAddOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import { IoIosLogOut } from "react-icons/io";
 function Home() {
   const navigate = useNavigate();
     const handleClick = async(e) =>{
@@ -39,10 +40,20 @@ const showNote = (id) => {
     
     fetchNotes();
   }, []);
+  const logout = () =>{
+    localStorage.removeItem("token");
+    navigate("/");
+  }
   return (
     
     <div className='bg-gray-900 min-h-screen'>
-       <h1 className='text-left text-white ml-20 pt-13 text-4xl '>Notes App</h1>
+       <div className="flex justify-between items-center px-20 py-10 bg-gray-900">
+  <h1 className="text-white text-4xl">Notes App</h1>
+<button className="text-white text-2xl px-6 py-2 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition duration-300 ease-in-out cursor-pointer" onClick={logout}>
+  Logout
+</button>
+</div>
+
         <div className='pr-20 pl-20 pt-10  '>
         <ul className="space-y-4">
         {notes?.map((note) => (
