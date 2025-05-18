@@ -15,7 +15,20 @@ function AddNote() {
             return;
         }
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/note/createnote`, { heading, content , currentDate});
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.warn("no token found");
+                return;
+            }
+           await axios.post(
+  `${import.meta.env.VITE_BACKEND_URL}/note/createnote`,
+  { heading, content, currentDate },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
               setHeading('');
               navigate("/home");
       setContent('');

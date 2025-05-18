@@ -45,7 +45,6 @@ const getAllNotes = async (req, res) => {
     try {
         const userId = req.userId;
         const notes = await notesModel.find({ userId }); 
-        console.log(userId);
         res.json(notes);
     } catch (error) {
         res.status(500).json({ message: 'error fetching notes', error });
